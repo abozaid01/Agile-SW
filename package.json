@@ -12,10 +12,6 @@
         "lint": "eslint src/**/*.ts",
         "lint-fix": "eslint src/**/*.ts --fix"
     },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/abozaid01/storefront-backend.git"
-    },
     "keywords": [],
     "author": "",
     "license": "ISC",
