@@ -1,6 +1,27 @@
 import express, { Application, Request, Response } from 'express';
 import errorMiddleware from './middleware/err.middleware';
+import config from './config';
+import db from './database';
+
 const app: Application = express();
+
+//test database connection
+db.connect()
+    .then((client) => {
+        return client
+            .query('SELECT NOW()')
+            .then((res) => {
+                client.release();
+                console.log(res.rows);
+            })
+            .catch((err) => {
+                client.release();
+                console.log(err.stack);
+            });
+    })
+    .catch((err) => {
+        console.log(err);
+    });
 
 app.get('/', (req: Request, res: Response) => {
     throw new Error('');
@@ -17,9 +38,9 @@ app.use((_req: Request, res: Response) => {
     });
 });
 
-const PORT = 3000;
+const PORT = config.port || 3000;
 app.listen(PORT, () => {
-    console.log('listening on port 3000');
+    console.log(`listening on port ${PORT}`);
 });
 
 export default app;
