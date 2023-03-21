@@ -1,9 +1,16 @@
+import path from 'path';
 import express, { Application, Request, Response } from 'express';
 import errorMiddleware from './middleware/err.middleware';
 import config from './config';
 import db from './database';
 
 const app: Application = express();
+
+//middlewares
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, '/view'));
 
 //test database connection
 db.connect()
@@ -24,8 +31,8 @@ db.connect()
     });
 
 app.get('/', (req: Request, res: Response) => {
-    throw new Error('');
-    res.send('hello');
+    //throw new Error('');
+    res.render('home');
 });
 
 //Internal errors in the server
