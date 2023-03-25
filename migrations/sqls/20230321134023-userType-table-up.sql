@@ -1,1 +1,4 @@
-/* Replace with your SQL commands */
+CREATE TABLE userType(
+    id SERIAL PRIMARY KEY,
+    Name VARCHAR(255) NOT NULL
+);
