@@ -2,7 +2,6 @@ import { Request, Response, NextFunction } from 'express';
 import UserModel from '../model/user.model';
 import UserTypeLinksModel from '../model/userTypeLinks.model';
 import LinksModel from '../model/links.model';
-import { Router } from 'express';
 
 const userModel = new UserModel();
 const userTypeLinksModel = new UserTypeLinksModel();
@@ -10,8 +9,7 @@ const linksModel = new LinksModel();
 
 export const auth = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const { username, password, userTypeID } = req.body;
-        console.log(username);
+        const { username, password } = req.body;
 
         const user = await userModel.auth(username, password);
 
@@ -22,18 +20,18 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
                     'sorry, username or password is not correct. please try again'
                 );
 
+        //detect userTypeID based on the username
+        const userType_id = await userModel.detect(username);
+
         //figure out which links can this user access
-        const AccessLinks = await userTypeLinksModel.Access(userTypeID); // res=> [{link_id:3},{link_id:4},{link_id:1}]
-        // userTypeLinksModel.setLink_id()
+        const AccessLinks = await userTypeLinksModel.Access(
+            userType_id as number
+        ); // res=> [{link_id:3},{link_id:4},{link_id:1}]
+
         const AccessLinksArr: number[] = AccessLinks.map((e) => e.link_id); // res=> [3,4,1]
-        console.log(AccessLinksArr);
 
-        const showPages = await linksModel.show(4);
-        console.log(showPages);
-
-        const showPagesArr = showPages.map((item) => item.physicalname);
-
-        console.log(showPagesArr[0]);
+        const showPages = await linksModel.show(4); //res=> [{physcialname: 'home.ejs'}, {physcialname: 'dashboard.ejs'}]
+        const showPagesArr = showPages.map((item) => item.physicalname); //res=> ['home.ejs', 'dashboard.ejs']
 
         return res.render(showPagesArr[0]); //home.ejs
     } catch (err) {
@@ -41,9 +39,13 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
     }
 };
 
-const create = async (req: Request, res: Response, next: NextFunction) => {
+export const create = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
     try {
-        //validate data
+        //TODO:validate data
 
         //create the user
         const user = await userModel.create(req.body);
@@ -54,5 +56,79 @@ const create = async (req: Request, res: Response, next: NextFunction) => {
         });
     } catch (error) {
         next(error);
+    }
+};
+
+export const getAll = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        const users = await userModel.getAll();
+        res.json({
+            status: 'success',
+            data: { ...users },
+            message: 'all User retrived successfully',
+        });
+    } catch (err) {
+        next(err);
+    }
+};
+
+export const getUser = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        //get specific user
+        const user = await userModel.getOne(req.params.id as unknown as number);
+        res.json({
+            status: 'success',
+            data: user,
+            message: 'User retrived successfully',
+        });
+    } catch (err) {
+        next(err);
+    }
+};
+
+export const update = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        //TODO: validate data first
+
+        //update user
+        const user = await userModel.updateUser(req.body);
+        res.json({
+            status: 'success',
+            data: user,
+            message: 'User updated',
+        });
+    } catch (err) {
+        next(err);
+    }
+};
+
+export const deleteUser = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        const user = await userModel.deleteUser(
+            req.params.id as unknown as number
+        );
+        res.json({
+            status: 'success',
+            data: user,
+            message: 'User deleted',
+        });
+    } catch (err) {
+        next(err);
     }
 };

@@ -1,4 +1,4 @@
 CREATE TABLE userType(
     id SERIAL PRIMARY KEY,
-    Name VARCHAR(255) NOT NULL
+    name VARCHAR(255) NOT NULL
 );

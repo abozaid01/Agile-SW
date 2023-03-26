@@ -3,19 +3,7 @@ import express, { Application, Request, Response } from 'express';
 import errorMiddleware from './middleware/err.middleware';
 import config from './config';
 import db from './database';
-import LinksModel from './model/links.model';
-import UserTypeLinksModel from './model/userTypeLinks.model';
 import { auth } from './controller/user.controller';
-
-const userTypeLinks = new UserTypeLinksModel();
-const y = userTypeLinks.Access(2).then((response) => {
-    console.log(response);
-});
-
-const linksModel = new LinksModel();
-const x = linksModel.show(2).then((res) => {
-    console.log(res);
-});
 
 const app: Application = express();
 
@@ -43,11 +31,17 @@ db.connect()
     .catch((err) => {
         console.log(err);
     });
-app.post('/auth', auth);
+
+//==================== Routes =====================
+
 app.get('/', (req: Request, res: Response) => {
     //throw new Error('');
     res.render('home');
 });
+
+app.post('/auth', auth);
+
+//================================================
 
 //Internal errors in the server
 app.use(errorMiddleware);

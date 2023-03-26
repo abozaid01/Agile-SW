@@ -9,6 +9,7 @@ class UserModel {
     private age: number;
     private phone_number: number;
     private experience: number;
+    private userType_id: number;
 
     constructor(
         username = 'null',
@@ -17,7 +18,8 @@ class UserModel {
         password = 'null',
         age = 0,
         phone_number = 0,
-        experience = 0
+        experience = 0,
+        userType_id = 0
     ) {
         this.username = username;
         this.age = age;
@@ -26,6 +28,11 @@ class UserModel {
         this.password = password;
         this.phone_number = phone_number;
         this.experience = experience;
+        this.userType_id = userType_id;
+    }
+
+    getUserTypeId(): number {
+        return this.userType_id;
     }
 
     //Create new user
@@ -33,7 +40,7 @@ class UserModel {
         try {
             //opn connection
             const conn = await db.connect();
-            const sql = `INSERT INTO users (first_name, last_name, username, password, age, phone_number, experience) values ($1, $2, $3, $4, $5, $6, $7) RETURNING first_name, last_name, username, password, age, phone_number, experience`;
+            const sql = `INSERT INTO users (first_name, last_name, username, password, age, phone_number, experience, userType_id) values ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING first_name, last_name, username, password, age, phone_number, experience, userType_id`;
 
             //run query
             const result = await conn.query(sql, [
@@ -44,6 +51,7 @@ class UserModel {
                 user.age,
                 user.phone_number,
                 user.experience,
+                user.userType_id,
                 //await hash(user.password),
             ]);
 
@@ -111,7 +119,7 @@ class UserModel {
     async updateUser(user: UserModel): Promise<UserModel> {
         try {
             const conn = await db.connect();
-            const sql = `UPDATE users SET first_name=$1, last_name=$2, username=$3, password=$4, age=$5, phone_number=$6, experience=$7 WHERE id=$8 RETURNING id, first_name, last_name, username, password, age, phone_number, experience`;
+            const sql = `UPDATE users SET first_name=$1, last_name=$2, username=$3, password=$4, age=$5, phone_number=$6, experience=$7, userType_id=$8 WHERE id=$9 RETURNING id, first_name, last_name, username, password, age, phone_number, experience, userType_id`;
 
             //run query
             const result = await conn.query(sql, [
@@ -122,6 +130,7 @@ class UserModel {
                 user.age,
                 user.phone_number,
                 user.experience,
+                user.userType_id,
                 user.id,
                 //await hash(user.password),
             ]);
@@ -145,7 +154,7 @@ class UserModel {
         try {
             //opn connection
             const conn = await db.connect();
-            const sql = `DELETE FROM users WHERE id= ($1) RETURNING id, first_name, last_name, username, password, age, phone_number, experience`;
+            const sql = `DELETE FROM users WHERE id= ($1) RETURNING id, first_name, last_name, username, password, age, phone_number, experience, userType_id`;
 
             //run query
             const result = await conn.query(sql, [id]);
@@ -195,6 +204,33 @@ class UserModel {
             return null;
         } catch (error) {
             throw new Error(`Unable to login: ${(error as Error).message}`);
+        }
+    }
+
+    //userTypeId detection
+    async detect(username: string): Promise<UserModel | number> {
+        try {
+            //open connection
+            const conn = await db.connect();
+            const sql = 'SELECT userType_id FROM users WHERE username=$1';
+
+            //run query
+            const result = await conn.query(sql, [username]);
+
+            //release connection
+            conn.release();
+
+            //return the detected userTypeId
+            this.userType_id = result.rows[0].usertype_id;
+            console.log(result.rows[0]);
+
+            console.log(this.userType_id);
+
+            return this.userType_id;
+        } catch (error) {
+            throw new Error(
+                `Unable to detect userTypeId: ${(error as Error).message}`
+            );
         }
     }
 }

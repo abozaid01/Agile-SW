@@ -22,7 +22,7 @@ class UserTypeLinksModel {
         try {
             //opn connection
             const conn = await db.connect();
-            const sql = `SELECT link_id FROM userTypeLinks, users WHERE users.userType_id = userTypeLinks.userType_id AND userTypeLinks.userType_id=$1`;
+            const sql = `SELECT link_id FROM userTypeLinks WHERE userType_id=$1`;
 
             //run query
             const result = await conn.query(sql, [userTypeID]);
@@ -31,7 +31,7 @@ class UserTypeLinksModel {
             conn.release();
 
             //return Access links for user type
-            return result.rows;
+            return result.rows; // res=> [{link_id:3},{link_id:4},{link_id:1}]
         } catch (error) {
             throw new Error(
                 `unable to get the requested uerTypeLinks ${
