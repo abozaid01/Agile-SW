@@ -34,11 +34,20 @@ db.connect()
 
 //==================== Routes =====================
 
-app.get('/', (req: Request, res: Response) => {
+app.get('/login', (req: Request, res: Response) => {
     //throw new Error('');
-    res.render('home');
+    res.render('login');
 });
 
+app.get('/panal', (req: Request, res: Response) => {
+    //throw new Error('');
+    res.render('dashboard');
+});
+
+app.post('/panal', (req: Request, res: Response) => {
+    //throw new Error('');
+    res.render('dashboard');
+});
 app.post('/auth', auth);
 
 //================================================
