@@ -34,7 +34,9 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
         const showPages = await linksModel.show(4); //res=> [{physcialname: 'home.ejs'}, {physcialname: 'dashboard.ejs'}]
         const showPagesArr = showPages.map((item) => item.physicalname); //res=> ['home.ejs', 'dashboard.ejs']
 
-        return res.render('dashboard.ejs'); //home.ejs
+        return res.render('dashboard.ejs', {
+            userType_id: userType_id,
+        }); //home.ejs
     } catch (err) {
         return next(err);
     }
