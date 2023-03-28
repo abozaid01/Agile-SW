@@ -92,11 +92,12 @@ export const getUser = async (
     try {
         //get specific user
         const user = await userModel.getOne(req.params.id as unknown as number);
-        res.json({
-            status: 'success',
-            data: user,
-            message: 'User retrived successfully',
-        });
+        res.render('viewer', { user });
+        // res.json({
+        //     status: 'success',
+        //     data: user,
+        //     message: 'User retrived successfully',
+        // });
     } catch (err) {
         next(err);
     }

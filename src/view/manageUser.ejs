@@ -202,20 +202,22 @@
                                 <td><%= users[i].phone_number %></td>
                                 <td><%= users[i].experience%></td>
                                 <td>
-                                  <form action="/admin/manage/:id" method="get">  
-                                    <button><a
-                                        href="#"
-                                        
-                                        class="view"
-                                        title="View"
-                                        data-toggle="tooltip"
-                                        ><i class="material-icons"
-                                            >&#xE417;</i
-                                        ></button>
-                                    </form>
-                                    </a
-                                        
+                                    <form
+                                        action="/admin/manage/<%= users[i].id %>"
+                                        method="get"
                                     >
+                                        <button>
+                                            <a
+                                                class="view"
+                                                title="View"
+                                                data-toggle="tooltip"
+                                                ><i class="material-icons"
+                                                    >&#xE417;</i
+                                                ></a
+                                            >
+                                        </button>
+                                    </form>
+
                                     <a
                                         href="#"
                                         class="edit"
@@ -241,7 +243,8 @@
                     </table>
                     <div class="clearfix">
                         <div class="hint-text">
-                            Showing <b>5</b> out of <b><%= users.length %></b> entries
+                            Showing <b>5</b> out of
+                            <b><%= users.length %></b> entries
                         </div>
                         <ul class="pagination">
                             <li class="page-item disabled">

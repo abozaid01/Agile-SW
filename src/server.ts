@@ -5,7 +5,6 @@ import config from './config';
 import db from './database';
 import { auth, getAll, getUser } from './controller/user.controller';
 
-
 const app: Application = express();
 
 //middlewares
@@ -48,7 +47,7 @@ app.post('/login', auth);
 
 app.get('/admin/manage', getAll);
 
-app.get('/admin/manage/:id',getUser);
+app.get('/admin/manage/:id', getUser);
 
 //================================================
 
