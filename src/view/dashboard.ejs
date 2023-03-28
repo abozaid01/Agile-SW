@@ -8,6 +8,12 @@
         <link rel="stylesheet" href="/style.css" />
     </head>
     <body>
-        <h1>succ</h1>
+        <h1>welecome <%= userType_name %></h1>
+
+        <% if (userType_name = 'admin') { %>
+        <form action="/<%= userType_name %>/manage" method="get">
+            <button>manage users</button>
+        </form>
+        <% } %>
     </body>
 </html>

@@ -59,6 +59,14 @@ class UserModel {
             conn.release();
 
             //return created user
+            this.username = user.username;
+            this.age = user.age;
+            this.first_name = user.first_name;
+            this.last_name = user.last_name;
+            this.password = user.password;
+            this.phone_number = user.phone_number;
+            this.experience = user.experience;
+            this.userType_id = user.userType_id;
             return result.rows[0];
         } catch (error) {
             throw new Error(
@@ -139,6 +147,14 @@ class UserModel {
             conn.release();
 
             //return the updated user
+            this.username = user.username;
+            this.age = user.age;
+            this.first_name = user.first_name;
+            this.last_name = user.last_name;
+            this.password = user.password;
+            this.phone_number = user.phone_number;
+            this.experience = user.experience;
+            this.userType_id = user.userType_id;
             return result.rows[0];
         } catch (error) {
             throw new Error(
@@ -222,9 +238,6 @@ class UserModel {
 
             //return the detected userTypeId
             this.userType_id = result.rows[0].usertype_id;
-            console.log(result.rows[0]);
-
-            console.log(this.userType_id);
 
             return this.userType_id;
         } catch (error) {

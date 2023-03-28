@@ -1,9 +1,9 @@
 import path from 'path';
-import express, { Application, Request, Response } from 'express';
+import express, { Application, Request, Response, urlencoded } from 'express';
 import errorMiddleware from './middleware/err.middleware';
 import config from './config';
 import db from './database';
-import { auth } from './controller/user.controller';
+import { auth, getAll } from './controller/user.controller';
 
 const app: Application = express();
 
@@ -11,6 +11,7 @@ const app: Application = express();
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(urlencoded({ extended: true }));
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '/view'));
@@ -39,17 +40,23 @@ app.get('/login', (req: Request, res: Response) => {
     //throw new Error('');
     res.render('login');
 });
+app.post('/login', auth);
 
-app.get('/panal', (req: Request, res: Response) => {
-    //throw new Error('');
-    res.render('dashboard');
+app.get('/admin/manage', (req: Request, res: Response) => {
+    res.render('manageUser');
 });
+
+app.get('/trainer', (req: Request, res: Response) => {
+    //throw new Error('');
+    res.render('trainerDashboard');
+});
+
+app.get('/admin/manage/all', getAll);
 
 app.post('/panal', (req: Request, res: Response) => {
     //throw new Error('');
     res.render('dashboard');
 });
-app.post('/auth', auth);
 
 //================================================
 
