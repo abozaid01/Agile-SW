@@ -10,7 +10,7 @@
     <body>
         <h1>welecome <%= userType_name %></h1>
 
-        <% if (userType_name = 'admin') { %>
+        <% if (userType_name === 'admin') { %>
         <form action="/admin/manage" method="get">
             <button>manage users</button>
         </form>
