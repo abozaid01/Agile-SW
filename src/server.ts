@@ -35,6 +35,9 @@ db.connect()
     });
 
 //==================== Routes =====================
+app.get('/', (req: Request, res: Response) => {
+    res.render('home');
+});
 
 app.get('/login', (req: Request, res: Response) => {
     //throw new Error('');
@@ -42,21 +45,7 @@ app.get('/login', (req: Request, res: Response) => {
 });
 app.post('/login', auth);
 
-app.get('/admin/manage', (req: Request, res: Response) => {
-    res.render('manageUser');
-});
-
-app.get('/trainer', (req: Request, res: Response) => {
-    //throw new Error('');
-    res.render('trainerDashboard');
-});
-
-app.get('/admin/manage/all', getAll);
-
-app.post('/panal', (req: Request, res: Response) => {
-    //throw new Error('');
-    res.render('dashboard');
-});
+app.get('/admin/manage', getAll);
 
 //================================================
 

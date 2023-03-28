@@ -73,7 +73,7 @@ export const getAll = async (
     try {
         const users = await userModel.getAll();
         console.log(users);
-        res.render('all', { ...users });
+        res.render('manageUser', { users });
         // res.json({
         //     status: 'success',
         //     data: { ...users },

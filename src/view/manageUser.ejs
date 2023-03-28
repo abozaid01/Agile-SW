@@ -189,15 +189,49 @@
                                 <th>usertype_id</th>
                             </tr>
                         </thead>
-                        <% for( let i = 0; i < users.length; i ++ ) { %>        
-                        <ul>
-                                       
-                            <li><%= users[i].username %></li>
-
-                                   
-                        </ul>
-
-                                <% } %>
+                        <tbody>
+                            <% for( let i = 0; i < users.length; i++ ) { %>
+                            <tr>
+                                <td><%= users[i].id %></td>
+                                <td><%= users[i].first_name %></td>
+                                <td><%= users[i].last_name %></td>
+                                <td><%= users[i].username %></td>
+                                <td><%= users[i].password %></td>
+                                <td><%= users[i].age %></td>
+                                <td><%= users[i].phaone_number %></td>
+                                <td><%= users[i].experience%></td>
+                                <td>
+                                    <a
+                                        href="#"
+                                        class="view"
+                                        title="View"
+                                        data-toggle="tooltip"
+                                        ><i class="material-icons"
+                                            >&#xE417;</i
+                                        ></a
+                                    >
+                                    <a
+                                        href="#"
+                                        class="edit"
+                                        title="Edit"
+                                        data-toggle="tooltip"
+                                        ><i class="material-icons"
+                                            >&#xE254;</i
+                                        ></a
+                                    >
+                                    <a
+                                        href="#"
+                                        class="delete"
+                                        title="Delete"
+                                        data-toggle="tooltip"
+                                        ><i class="material-icons"
+                                            >&#xE872;</i
+                                        ></a
+                                    >
+                                </td>
+                            </tr>
+                            <% } %>
+                        </tbody>
                     </table>
                     <div class="clearfix">
                         <div class="hint-text">
