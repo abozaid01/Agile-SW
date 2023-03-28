@@ -3,7 +3,13 @@ import express, { Application, Request, Response, urlencoded } from 'express';
 import errorMiddleware from './middleware/err.middleware';
 import config from './config';
 import db from './database';
-import { auth, getAll, getUser } from './controller/user.controller';
+import {
+    auth,
+    getAll,
+    getUser,
+    deleteUser,
+} from './controller/user.controller';
+import methodOverride from 'method-override';
 
 const app: Application = express();
 
@@ -12,6 +18,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(urlencoded({ extended: true }));
+app.use(methodOverride('_method'));
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '/view'));
@@ -48,6 +55,7 @@ app.post('/login', auth);
 app.get('/admin/manage', getAll);
 
 app.get('/admin/manage/:id', getUser);
+app.delete('/admin/manage/:id', deleteUser);
 
 //================================================
 

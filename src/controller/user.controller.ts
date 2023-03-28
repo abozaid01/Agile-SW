@@ -132,11 +132,12 @@ export const deleteUser = async (
         const user = await userModel.deleteUser(
             req.params.id as unknown as number
         );
-        res.json({
-            status: 'success',
-            data: user,
-            message: 'User deleted',
-        });
+        res.redirect('/admin/manage');
+        // res.json({
+        //     status: 'success',
+        //     data: user,
+        //     message: 'User deleted',
+        // });
     } catch (err) {
         next(err);
     }
