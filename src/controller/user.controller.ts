@@ -10,6 +10,7 @@ const linksModel = new LinksModel();
 export const auth = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { username, password } = req.body;
+        console.log(req.body);
 
         const user = await userModel.auth(username, password);
 
@@ -33,7 +34,9 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
         const showPages = await linksModel.show(4); //res=> [{physcialname: 'home.ejs'}, {physcialname: 'dashboard.ejs'}]
         const showPagesArr = showPages.map((item) => item.physicalname); //res=> ['home.ejs', 'dashboard.ejs']
 
-        return res.render(showPagesArr[0]); //home.ejs
+        return res.render('dashboard.ejs', {
+            userType_id: userType_id,
+        }); //home.ejs
     } catch (err) {
         return next(err);
     }
