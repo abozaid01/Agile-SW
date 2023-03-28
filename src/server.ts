@@ -3,7 +3,8 @@ import express, { Application, Request, Response, urlencoded } from 'express';
 import errorMiddleware from './middleware/err.middleware';
 import config from './config';
 import db from './database';
-import { auth, getAll } from './controller/user.controller';
+import { auth, getAll, getUser } from './controller/user.controller';
+
 
 const app: Application = express();
 
@@ -46,6 +47,8 @@ app.get('/login', (req: Request, res: Response) => {
 app.post('/login', auth);
 
 app.get('/admin/manage', getAll);
+
+app.get('/admin/manage/:id',getUser);
 
 //================================================
 

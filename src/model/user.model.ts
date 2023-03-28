@@ -82,7 +82,7 @@ class UserModel {
         try {
             //opn connection
             const conn = await db.connect();
-            const sql = `SELECT id ,first_name, last_name, username, age, phone_number, experience from users`;
+            const sql = `SELECT id ,first_name, last_name, username,password, age, phone_number, experience from users`;
 
             //run query
             const result = await conn.query(sql);
