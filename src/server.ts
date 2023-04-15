@@ -3,13 +3,9 @@ import express, { Application, Request, Response, urlencoded } from 'express';
 import errorMiddleware from './middleware/err.middleware';
 import config from './config';
 import db from './database';
-import {
-    auth,
-    getAll,
-    getUser,
-    deleteUser,
-} from './controller/user.controller';
+import { auth } from './controller/user.controller';
 import methodOverride from 'method-override';
+import adminRouter from './routes/admin.routes';
 
 const app: Application = express();
 
@@ -41,23 +37,20 @@ db.connect()
         console.log(err);
     });
 
+//================== Login ========================
+app.get('/login', (req: Request, res: Response) => {
+    res.render('login');
+});
+
+app.post('/login', auth);
+
 //==================== Routes =====================
 app.get('/', (req: Request, res: Response) => {
     res.render('home');
 });
 
-app.get('/login', (req: Request, res: Response) => {
-    //throw new Error('');
-    res.render('login');
-});
-app.post('/login', auth);
-
-app.get('/admin/manage', getAll);
-
-app.get('/admin/manage/:id', getUser);
-app.delete('/admin/manage/:id', deleteUser);
-
-//================================================
+//Admin Routes
+app.use('/admin', adminRouter);
 
 //Internal errors in the server
 app.use(errorMiddleware);

@@ -37,15 +37,16 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
         const showPages = await linksModel.show(4); //res=> [{physcialname: 'home.ejs'}, {physcialname: 'dashboard.ejs'}]
         const showPagesArr = showPages.map((item) => item.physicalname); //res=> ['home.ejs', 'dashboard.ejs']
 
-        return res.render('dashboard.ejs', {
-            userType_name,
-        }); //home.ejs
+        return res.redirect(`/${userType_name}`);
+        // return res.render('dashboard.ejs', {
+        //     userType_name,
+        // }); //home.ejs
     } catch (err) {
         return next(err);
     }
 };
 
-export const create = async (
+export const createUser = async (
     req: Request,
     res: Response,
     next: NextFunction
@@ -72,13 +73,7 @@ export const getAll = async (
 ) => {
     try {
         const users = await userModel.getAll();
-        console.log(users);
-        res.render('manageUser', { users });
-        // res.json({
-        //     status: 'success',
-        //     data: { ...users },
-        //     message: 'all User retrived successfully',
-        // });
+        res.render('Admin/getAll', { users });
     } catch (err) {
         next(err);
     }
@@ -92,18 +87,13 @@ export const getUser = async (
     try {
         //get specific user
         const user = await userModel.getOne(req.params.id as unknown as number);
-        res.render('viewer', { user });
-        // res.json({
-        //     status: 'success',
-        //     data: user,
-        //     message: 'User retrived successfully',
-        // });
+        res.render('Admin/getOne', { user });
     } catch (err) {
         next(err);
     }
 };
 
-export const update = async (
+export const updateUser = async (
     req: Request,
     res: Response,
     next: NextFunction
@@ -113,11 +103,7 @@ export const update = async (
 
         //update user
         const user = await userModel.updateUser(req.body);
-        res.json({
-            status: 'success',
-            data: user,
-            message: 'User updated',
-        });
+        res.redirect('/admin');
     } catch (err) {
         next(err);
     }
@@ -132,12 +118,7 @@ export const deleteUser = async (
         const user = await userModel.deleteUser(
             req.params.id as unknown as number
         );
-        res.redirect('/admin/manage');
-        // res.json({
-        //     status: 'success',
-        //     data: user,
-        //     message: 'User deleted',
-        // });
+        res.redirect('/admin');
     } catch (err) {
         next(err);
     }

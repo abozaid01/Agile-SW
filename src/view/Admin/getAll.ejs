@@ -6,7 +6,7 @@
             name="viewport"
             content="width=device-width, initial-scale=1, shrink-to-fit=no"
         />
-        <title>Bootstrap Simple Data Table</title>
+        <title>Manage All users</title>
         <link
             rel="stylesheet"
             href="https://fonts.googleapis.com/css?family=Roboto"
@@ -157,7 +157,7 @@
                     <div class="table-title">
                         <div class="row">
                             <div class="col-sm-8">
-                                <h2>Customer <b>Details</b></h2>
+                                <h2>Users <b>Details</b></h2>
                             </div>
                             <div class="col-sm-4">
                                 <div class="search-box">
@@ -203,7 +203,7 @@
                                 <td><%= users[i].experience%></td>
                                 <td>
                                     <a
-                                        href="/admin/manage/<%= users[i].id %>"
+                                        href="/admin/<%= users[i].id %>"
                                         class="view"
                                         title="View"
                                         data-toggle="tooltip"
@@ -222,7 +222,7 @@
                                         ></a
                                     >
                                     <form
-                                        action="/admin/manage/<%= users[i].id%>?_method=DELETE"
+                                        action="/admin/<%= users[i].id%>?_method=DELETE"
                                         method="POST"
                                     >
                                         <button>
