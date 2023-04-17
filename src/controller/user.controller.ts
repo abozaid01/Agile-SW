@@ -82,7 +82,7 @@ export const getUser = async (
     try {
         //get specific user
         const user = await userModel.getOne(req.params.id as unknown as number);
-        res.render('Admin/getOne', { user });
+        res.render('Admin/getUser', { user });
     } catch (err) {
         next(err);
     }

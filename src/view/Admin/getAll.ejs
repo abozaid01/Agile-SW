@@ -219,7 +219,7 @@
                                         </div>
                                         <div class="col">
                                             <a
-                                                href="/admin/edit"
+                                                href="/admin/edit-user"
                                                 class="edit"
                                                 title="Edit"
                                                 data-toggle="tooltip"
@@ -294,7 +294,9 @@
             </div>
         </div>
         <div class="d-flex justify-content-center">
-            <a href="/admin/create" class="btn btn-primary">Create New User</a>
+            <a href="/admin/create-user" class="btn btn-primary"
+                >Create New User</a
+            >
         </div>
         <!---------------------------------- Works-------------------------------->
         <!---------------------------------- Works-------------------------------->
@@ -345,19 +347,7 @@
                                     <div class="row">
                                         <div class="col">
                                             <a
-                                                href="/admin/<%= users[i].id %>"
-                                                class="view"
-                                                title="View"
-                                                data-toggle="tooltip"
-                                            >
-                                                <i class="material-icons"
-                                                    >&#xE417;</i
-                                                >
-                                            </a>
-                                        </div>
-                                        <div class="col">
-                                            <a
-                                                href="#"
+                                                href="/admin/edit-work"
                                                 class="edit"
                                                 title="Edit"
                                                 data-toggle="tooltip"
@@ -369,7 +359,7 @@
                                         </div>
                                         <div class="col">
                                             <form
-                                                action="/admin/<%= users[i].id %>?_method=DELETE"
+                                                action="/admin/work/<%= works[i].id %>?_method=DELETE"
                                                 method="POST"
                                             >
                                                 <button
@@ -431,5 +421,11 @@
                 </div>
             </div>
         </div>
+        <div class="d-flex justify-content-center">
+            <a href="/admin/create-work" class="btn btn-success"
+                >Create New Work</a
+            >
+        </div>
+        <br /><br /><br />
     </body>
 </html>

@@ -104,7 +104,7 @@ class UserModel {
         try {
             //opn connection
             const conn = await db.connect();
-            const sql = `SELECT u.id ,first_name, last_name, username, age, phone_number, experience , userType.name from users as u, userType WHERE u.userType_id = userType.id AND u.id=($1)`;
+            const sql = `SELECT u.id ,first_name, last_name, username, age, phone_number, experience , userType.name AS type from users as u, userType WHERE u.userType_id = userType.id AND u.id=($1)`;
 
             //run query
             const result = await conn.query(sql, [id]);

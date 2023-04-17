@@ -44,7 +44,7 @@ export const getWork = async (
     try {
         //get specific work
         const work = await workModel.getOne(req.params.id as unknown as number);
-        res.render('Voulnteer/getOne', { work });
+        res.render('Voulnteer/getAll', { work });
     } catch (err) {
         next(err);
     }
@@ -59,8 +59,8 @@ export const updateWork = async (
         //TODO: validate data first
 
         //update work
-        const work = await workModel.updateWork(req.body);
-        res.redirect('/voulnteer');
+        await workModel.updateWork(req.body);
+        res.redirect('/admin');
     } catch (err) {
         next(err);
     }
@@ -72,10 +72,8 @@ export const deleteWork = async (
     next: NextFunction
 ) => {
     try {
-        const work = await workModel.deleteWork(
-            req.params.id as unknown as number
-        );
-        res.redirect('/voulnteer');
+        await workModel.deleteWork(req.params.id as unknown as number);
+        res.redirect('/admin');
     } catch (err) {
         next(err);
     }
