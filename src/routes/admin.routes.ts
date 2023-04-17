@@ -12,6 +12,10 @@ import {
 
 router.route('/').get(getAll).post(createUser);
 
+router.route('/create').get((req, res) => {
+    res.render('Admin/create');
+});
+
 router.route('/:id').get(getUser).patch(updateUser).delete(deleteUser);
 
 export default router;
