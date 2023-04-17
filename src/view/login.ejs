@@ -18,8 +18,8 @@
                     <div class="col-md-6">
                         <div class="card px-5 py-5" id="form1">
                             <div class="form-data" v-if="!submitted">
-                                <div class="forms-inputs mb-4">
-                                    <span>Email or username</span>
+                                <div class="forms-inputs mb-4 pl-5">
+                                    <span>username</span>
                                     <input
                                         autocomplete="off"
                                         type="text"
@@ -32,7 +32,7 @@
                                         A valid email is required!
                                     </div>
                                 </div>
-                                <div class="forms-inputs mb-4">
+                                <div class="forms-inputs mb-4 pl-5">
                                     <span>Password</span>
                                     <input
                                         autocomplete="off"
@@ -53,15 +53,6 @@
                                     >
                                         Login
                                     </button>
-                                </div>
-                            </div>
-                            <div class="success-data" v-else>
-                                <div class="text-center d-flex flex-column">
-                                    <i class="bx bxs-badge-check"></i>
-                                    <span class="text-center fs-1"
-                                        >You have been logged in <br />
-                                        Successfully</span
-                                    >
                                 </div>
                             </div>
                         </div>

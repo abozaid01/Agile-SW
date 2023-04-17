@@ -4,124 +4,125 @@
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Document</title>
+
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ"
+            crossorigin="anonymous"
+        />
+
+        <title>Home Page</title>
+
+        <style>
+            .flip-card-3D-wrapper {
+                position: relative;
+                -o-perspective: 900px;
+                -webkit-perspective: 900px;
+                -ms-perspective: 900px;
+                perspective: 900px;
+            }
+
+            #flip-card {
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                -o-transition: all 1s ease-in-out;
+                -webkit-transition: all 1s ease-in-out;
+                -ms-transition: all 1s ease-in-out;
+                transition: all 1s ease-in-out;
+                -o-transform-style: preserve-3d;
+                -webkit-transform-style: preserve-3d;
+                -ms-transform-style: preserve-3d;
+                transform-style: preserve-3d;
+            }
+            .do-flip {
+                -o-transform: rotateY(-180deg);
+                -webkit-transform: rotateY(-180deg);
+                -ms-transform: rotateY(-180deg);
+                transform: rotateY(-180deg) translateX(25%);
+            }
+            #flip-card-btn-turn-to-back,
+            #flip-card-btn-turn-to-front {
+                visibility: hidden;
+            }
+            #flip-card .flip-card-front,
+            #flip-card .flip-card-back {
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                -o-backface-visibility: hidden;
+                -webkit-backface-visibility: hidden;
+                -ms-backface-visibility: hidden;
+                backface-visibility: hidden;
+                z-index: 2;
+            }
+            #flip-card .flip-card-back {
+                -o-transform: rotateY(180deg);
+                -webkit-transform: rotateY(180deg);
+                -ms-transform: rotateY(180deg);
+                transform: rotateY(180deg);
+            }
+            #flip-card .flip-card-front p,
+            #flip-card .flip-card-back p {
+                width: 100%;
+            }
+        </style>
     </head>
     <body>
-        <% for( let i = 0; i < works.length; i++ ) { %>
-        <ul>
-            <li><%= works[i].id %></li>
-            <li><%= works[i].location %></li>
-            <li><%= works[i].estimated_time %></li>
-            <li><%= works[i].work_info %></li>
-        </ul>
-        <% } %>
-    </body>
-</html>
-
-
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-
-  <title>Home Page</title>
-
-
-  <style>
-
-    .flip-card-3D-wrapper {
-      position: relative;
-      -o-perspective: 900px;
-      -webkit-perspective: 900px;
-      -ms-perspective: 900px;
-      perspective: 900px;
-    }
-
-    #flip-card {
-      width: 100%;
-      height: 100%;
-      position: absolute;
-      -o-transition: all 1s ease-in-out;
-      -webkit-transition: all 1s ease-in-out;
-      -ms-transition: all 1s ease-in-out;
-      transition: all 1s ease-in-out;
-      -o-transform-style: preserve-3d;
-      -webkit-transform-style: preserve-3d;
-      -ms-transform-style: preserve-3d;
-      transform-style: preserve-3d;
-    }
-    .do-flip {
-      -o-transform: rotateY(-180deg);
-      -webkit-transform: rotateY(-180deg);
-      -ms-transform: rotateY(-180deg);
-      transform: rotateY(-180deg) translateX(25%);
-    }
-    #flip-card-btn-turn-to-back, #flip-card-btn-turn-to-front {
-      visibility: hidden;
-    }
-    #flip-card .flip-card-front, #flip-card .flip-card-back{
-      width: 100%;
-      height: 100%;
-      position: absolute;
-      -o-backface-visibility: hidden;
-      -webkit-backface-visibility: hidden;
-      -ms-backface-visibility: hidden;
-      backface-visibility: hidden;
-      z-index: 2;
-    }
-    #flip-card .flip-card-back {
-        -o-transform: rotateY(180deg);
-        -webkit-transform: rotateY(180deg);
-        -ms-transform: rotateY(180deg);
-        transform: rotateY(180deg);
-    }
-    #flip-card .flip-card-front p, #flip-card .flip-card-back p {
-      width: 100%;
-    }
-  </style>
-</head>
-<body>
-  <nav class="navbar bg-body-tertiary">
-    <div class="container-fluid">
-      <a class="navbar-brand">Volunteer</a>
-      <a class="btn btn-outline-success" href="#">Logout</a>
-    </div>
-  </nav>
-
-  <div class="row g-5 m-5">
-    
-    <% for( let i = 0; i < works.length; i++ ) { %>
-    <div class="col-4 flip-card-3D-wrapper">
-        <div id="flip-card">
-          <div class="card text-center flip-card-front" style="width: 25rem; height: 100%;">
-            <div class="card-body">
-              <h5 class="card-title my-3">Work</h5>
-              <p class="card-text"><%= works[i].work_info %></p>
-              <p class="card-text"><%= works[i].location %></p>
-              <a href="#" class="btn btn-primary">Apply</a>
-              <button class="btn btn-primary" id="flip-card-btn-turn-to-back">More</button>
+        <nav class="navbar bg-body-tertiary">
+            <div class="container-fluid">
+                <a class="navbar-brand">Volunteer</a>
+                <a class="btn btn-outline-success" href="/login">Logout</a>
             </div>
-          </div>
-    
-          <div class="card text-center flip-card-back" style="width: 25rem;">
-            <div class="card-body">
-              <h5 class="card-title my-3">Works</h5>
-              <p class="card-text"><%= works[i].work_info %></p>
-              <p class="card-text"><%= works[i].estimated_time %></p>
-              <a href="#" class="btn btn-primary">Apply</a>
-              <button class="btn btn-primary" id="flip-card-btn-turn-to-front">Back</button>
-            </div>
-          </div>
-        </div>  
-      </div>
-    <% } %>
+        </nav>
 
-    <!-- <div class="col-4">
+        <div class="row g-5 m-5">
+            <% for( let i = 0; i < works.length; i++ ) { %>
+            <div class="col-4 flip-card-3D-wrapper">
+                <div id="flip-card">
+                    <div
+                        class="card text-center flip-card-front"
+                        style="width: 25rem; height: 100%"
+                    >
+                        <div class="card-body">
+                            <h5 class="card-title my-3">Work #<%= i+1 %></h5>
+                            <p class="card-text"><%= works[i].work_info %></p>
+                            <p class="card-text"><%= works[i].location %></p>
+                            <a href="#" class="btn btn-primary">Apply</a>
+                            <button
+                                class="btn btn-primary"
+                                id="flip-card-btn-turn-to-back"
+                            >
+                                More
+                            </button>
+                        </div>
+                    </div>
+
+                    <div
+                        class="card text-center flip-card-back"
+                        style="width: 25rem"
+                    >
+                        <div class="card-body">
+                            <h5 class="card-title my-3">Works</h5>
+                            <p class="card-text"><%= works[i].work_info %></p>
+                            <p class="card-text">
+                                <%= works[i].estimated_time %>
+                            </p>
+                            <a href="#" class="btn btn-primary">Apply</a>
+                            <button
+                                class="btn btn-primary"
+                                id="flip-card-btn-turn-to-front"
+                            >
+                                Back
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <% } %>
+
+            <!-- <div class="col-4">
       <div class="card text-center" style="width: 25rem; visibility: hidden;">
         <div class="card-body">
           <h5 class="card-title my-3">Work</h5>
@@ -132,36 +133,36 @@
         </div>
       </div>
     </div> -->
-    
-      
-  </div>
+        </div>
 
+        <script>
+            let turnToBackBtns = document.querySelectorAll(
+                '#flip-card-btn-turn-to-back'
+            );
+            let turnToFrontBtns = document.querySelectorAll(
+                '#flip-card-btn-turn-to-front'
+            );
+            let flipCardArr = document.querySelectorAll('#flip-card');
 
-  <script>
-    let turnToBackBtns = document.querySelectorAll('#flip-card-btn-turn-to-back');
-    let turnToFrontBtns = document.querySelectorAll('#flip-card-btn-turn-to-front');
-    let flipCardArr = document.querySelectorAll('#flip-card');
+            turnToBackBtns.forEach((toBackbtn, index) => {
+                toBackbtn.style.visibility = 'visible';
 
-    turnToBackBtns.forEach((toBackbtn, index) => {
-      toBackbtn.style.visibility = 'visible';
+                toBackbtn.onclick = function () {
+                    flipCardArr[index].classList.toggle('do-flip');
+                };
+            });
 
-      toBackbtn.onclick = function() {
-        flipCardArr[index].classList.toggle('do-flip');
-      };
-    });
+            turnToFrontBtns.forEach((toFrontbtn, index) => {
+                toFrontbtn.style.visibility = 'visible';
 
-    turnToFrontBtns.forEach((toFrontbtn, index) => {
-      toFrontbtn.style.visibility = 'visible';
+                toFrontbtn.onclick = function () {
+                    flipCardArr[index].classList.toggle('do-flip');
+                };
+            });
 
-      toFrontbtn.onclick = function() {
-        flipCardArr[index].classList.toggle('do-flip');
-      };
-    });
-
-      // document.getElementById('flip-card-btn-turn-to-back').onclick = function() {
-      // document.getElementById('flip-card').classList.toggle('do-flip');
-      // };
-
-  </script>
-</body>
+            // document.getElementById('flip-card-btn-turn-to-back').onclick = function() {
+            // document.getElementById('flip-card').classList.toggle('do-flip');
+            // };
+        </script>
+    </body>
 </html>
