@@ -16,12 +16,7 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
 
         const user = await userModel.auth(username, password);
 
-        if (!user)
-            return res
-                .status(401)
-                .send(
-                    'sorry, username or password is not correct. please try again'
-                );
+        if (!user) return res.status(401).redirect('/login'); //TODO: Alret unsucessful login
 
         //detect userTypeID && userTypeName based on the username
         const userType_id = await userModel.detect(username);

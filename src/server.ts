@@ -6,6 +6,7 @@ import db from './database';
 import { auth } from './controller/user.controller';
 import methodOverride from 'method-override';
 import adminRouter from './routes/admin.routes';
+import voulnteerRouter from './routes/voulnteer.routes';
 
 const app: Application = express();
 
@@ -51,6 +52,9 @@ app.get('/', (req: Request, res: Response) => {
 
 //Admin Routes
 app.use('/admin', adminRouter);
+
+//Voulnteer Routes
+app.use('/voultneer', voulnteerRouter);
 
 //Internal errors in the server
 app.use(errorMiddleware);
