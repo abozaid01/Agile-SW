@@ -3,11 +3,13 @@ import UserModel from '../model/user.model';
 import UserTypeLinksModel from '../model/userTypeLinks.model';
 import LinksModel from '../model/links.model';
 import UserTypeModel from '../model/userType.model';
+import WorkModel from '../model/work.model';
 
 const userModel = new UserModel();
 const userTypeLinksModel = new UserTypeLinksModel();
 const linksModel = new LinksModel();
 const userTypeModel = new UserTypeModel();
+const workModel = new WorkModel();
 
 export const auth = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -50,12 +52,8 @@ export const createUser = async (
         //TODO:validate data
 
         //create the user
-        const user = await userModel.create(req.body);
-        res.json({
-            status: 'success',
-            data: { ...user },
-            message: 'user created successfully',
-        });
+        await userModel.create(req.body);
+        res.redirect('/admin');
     } catch (error) {
         next(error);
     }
@@ -68,7 +66,9 @@ export const getAll = async (
 ) => {
     try {
         const users = await userModel.getAll();
-        res.render('Admin/getAll', { users });
+        const works = await workModel.getAll();
+
+        res.render('Admin/getAll', { users, works });
     } catch (err) {
         next(err);
     }
@@ -97,7 +97,7 @@ export const updateUser = async (
         //TODO: validate data first
 
         //update user
-        const user = await userModel.updateUser(req.body);
+        await userModel.updateUser(req.body);
         res.redirect('/admin');
     } catch (err) {
         next(err);
@@ -110,9 +110,7 @@ export const deleteUser = async (
     next: NextFunction
 ) => {
     try {
-        const user = await userModel.deleteUser(
-            req.params.id as unknown as number
-        );
+        await userModel.deleteUser(req.params.id as unknown as number);
         res.redirect('/admin');
     } catch (err) {
         next(err);

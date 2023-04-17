@@ -186,57 +186,210 @@
                                 <th>age <i class="fa fa-sort"></i></th>
                                 <th>phone_number</th>
                                 <th>experience</th>
+                                <th>user type</th>
                                 <th>options</th>
                             </tr>
                         </thead>
                         <tbody>
                             <% for( let i = 0; i < users.length; i++ ) { %>
                             <tr>
-                                <td></td>
+                                <td><%= i+1 %></td>
                                 <td><%= users[i].id %></td>
                                 <td><%= users[i].first_name %></td>
                                 <td><%= users[i].last_name %></td>
                                 <td><%= users[i].username %></td>
-                                <td><%= users[i].password %></td>
+                                <td>******</td>
                                 <td><%= users[i].age %></td>
                                 <td><%= users[i].phone_number %></td>
                                 <td><%= users[i].experience%></td>
+                                <td><%= users[i].type%></td>
                                 <td>
-                                    <a
-                                        href="/admin/<%= users[i].id %>"
-                                        class="view"
-                                        title="View"
-                                        data-toggle="tooltip"
-                                        ><i class="material-icons"
-                                            >&#xE417;</i
-                                        ></a
-                                    >
-
-                                    <a
-                                        href="#"
-                                        class="edit"
-                                        title="Edit"
-                                        data-toggle="tooltip"
-                                        ><i class="material-icons"
-                                            >&#xE254;</i
-                                        ></a
-                                    >
-                                    <form
-                                        action="/admin/<%= users[i].id%>?_method=DELETE"
-                                        method="POST"
-                                    >
-                                        <button>
+                                    <div class="row">
+                                        <div class="col">
                                             <a
-                                                class="delete"
-                                                title="Delete"
+                                                href="/admin/user/<%= users[i].id %>"
+                                                class="view"
+                                                title="View"
                                                 data-toggle="tooltip"
                                             >
                                                 <i class="material-icons"
-                                                    >&#xE872;</i
+                                                    >&#xE417;</i
                                                 >
                                             </a>
-                                        </button>
-                                    </form>
+                                        </div>
+                                        <div class="col">
+                                            <a
+                                                href="/admin/edit"
+                                                class="edit"
+                                                title="Edit"
+                                                data-toggle="tooltip"
+                                            >
+                                                <i class="material-icons"
+                                                    >&#xE254;</i
+                                                >
+                                            </a>
+                                        </div>
+                                        <div class="col">
+                                            <form
+                                                action="/admin/<%= users[i].id %>?_method=DELETE"
+                                                method="POST"
+                                            >
+                                                <button
+                                                    class="btn btn-link p-0"
+                                                    style="max-width: 100%"
+                                                >
+                                                    <a
+                                                        class="delete"
+                                                        title="Delete"
+                                                        data-toggle="tooltip"
+                                                    >
+                                                        <i
+                                                            class="material-icons"
+                                                            >&#xE872;</i
+                                                        >
+                                                    </a>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                    <div class="clearfix">
+                        <div class="hint-text">
+                            Showing <b>5</b> out of
+                            <b><%= users.length %></b> entries
+                        </div>
+                        <ul class="pagination">
+                            <li class="page-item disabled">
+                                <a href="#"
+                                    ><i class="fa fa-angle-double-left"></i
+                                ></a>
+                            </li>
+                            <li class="page-item">
+                                <a href="#" class="page-link">1</a>
+                            </li>
+                            <li class="page-item">
+                                <a href="#" class="page-link">2</a>
+                            </li>
+                            <li class="page-item active">
+                                <a href="#" class="page-link">3</a>
+                            </li>
+                            <li class="page-item">
+                                <a href="#" class="page-link">4</a>
+                            </li>
+                            <li class="page-item">
+                                <a href="#" class="page-link">5</a>
+                            </li>
+                            <li class="page-item">
+                                <a href="#" class="page-link"
+                                    ><i class="fa fa-angle-double-right"></i
+                                ></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex justify-content-center">
+            <a href="/admin/create" class="btn btn-primary">Create New User</a>
+        </div>
+        <!---------------------------------- Works-------------------------------->
+        <!---------------------------------- Works-------------------------------->
+        <!---------------------------------- Works-------------------------------->
+        <div class="container-xl">
+            <div class="table-responsive">
+                <div class="table-wrapper">
+                    <div class="table-title">
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <h2>Work <b>Details</b></h2>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="search-box">
+                                    <i class="material-icons">&#xE8B6;</i>
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        placeholder="Search&hellip;"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <table
+                        class="table table-striped table-hover table-bordered"
+                    >
+                        <thead>
+                            <tr>
+                                <th>#</th>
+
+                                <th>id <i class="fa fa-sort"></i></th>
+                                <th>location <i class="fa fa-sort"></i></th>
+                                <th>estimated time</th>
+                                <th>work info <i class="fa fa-sort"></i></th>
+                                <th>options</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% for( let i = 0; i < works.length; i++ ) { %>
+                            <tr>
+                                <td><%= i+1 %></td>
+                                <td><%= works[i].id %></td>
+                                <td><%= works[i].location %></td>
+                                <td><%= works[i].estimated_time %></td>
+                                <td><%= works[i].work_info %></td>
+                                <td>
+                                    <div class="row">
+                                        <div class="col">
+                                            <a
+                                                href="/admin/<%= users[i].id %>"
+                                                class="view"
+                                                title="View"
+                                                data-toggle="tooltip"
+                                            >
+                                                <i class="material-icons"
+                                                    >&#xE417;</i
+                                                >
+                                            </a>
+                                        </div>
+                                        <div class="col">
+                                            <a
+                                                href="#"
+                                                class="edit"
+                                                title="Edit"
+                                                data-toggle="tooltip"
+                                            >
+                                                <i class="material-icons"
+                                                    >&#xE254;</i
+                                                >
+                                            </a>
+                                        </div>
+                                        <div class="col">
+                                            <form
+                                                action="/admin/<%= users[i].id %>?_method=DELETE"
+                                                method="POST"
+                                            >
+                                                <button
+                                                    class="btn btn-link p-0"
+                                                    style="max-width: 100%"
+                                                >
+                                                    <a
+                                                        class="delete"
+                                                        title="Delete"
+                                                        data-toggle="tooltip"
+                                                    >
+                                                        <i
+                                                            class="material-icons"
+                                                            >&#xE872;</i
+                                                        >
+                                                    </a>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
                                 </td>
                             </tr>
                             <% } %>
