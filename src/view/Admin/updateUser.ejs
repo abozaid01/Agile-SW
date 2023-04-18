@@ -14,15 +14,17 @@
         </div>
         <div class="wrapperr">
             <h2>update user</h2>
-            <form action="/admin" method="post">
+            <form
+                action="/admin/user/<%= user.id %>?_method=PATCH"
+                method="POST"
+            >
                 <div class="input-box">
-                    <input type="text" placeholder="id" required name="id" />
+                    <input type="text" placeholder="<%= user.id %>" name="id" />
                 </div>
                 <div class="input-box">
                     <input
                         type="text"
-                        placeholder="first name"
-                        required
+                        placeholder="<%= user.first_name %>"
                         name="first_name"
                     />
                 </div>
@@ -30,51 +32,45 @@
                 <div class="input-box">
                     <input
                         type="text"
-                        placeholder="last name"
-                        required
+                        placeholder="<%= user.last_name %>"
                         name="last_name"
                     />
                 </div>
                 <div class="input-box">
                     <input
                         type="text"
-                        placeholder="user name"
-                        required
+                        placeholder="<%= user.username %>"
                         name="username"
                     />
                 </div>
                 <div class="input-box">
-                    <input
-                        type="password"
-                        placeholder="password"
-                        required
-                        name="password"
-                    />
+                    <input type="string" placeholder="****" name="password" />
                 </div>
                 <div class="input-box">
                     <input
-                        type="text"
-                        placeholder="phone number"
-                        required
+                        type="number"
+                        placeholder="<%= user.phone_number%>"
                         name="phone_number"
                     />
                 </div>
                 <div class="input-box">
-                    <input type="text" placeholder="age" required name="age" />
+                    <input
+                        type="number"
+                        placeholder="<%= user.age %>"
+                        name="age"
+                    />
                 </div>
                 <div class="input-box">
                     <input
-                        type="text"
-                        placeholder="user type id"
-                        required
+                        type="number"
+                        placeholder="<%= user.type %>"
                         name="userType_id"
                     />
                 </div>
                 <div class="input-box">
                     <input
-                        type="text"
-                        placeholder="experience"
-                        required
+                        type="number"
+                        placeholder="<%= user.experience %>"
                         name="experience"
                     />
                 </div>

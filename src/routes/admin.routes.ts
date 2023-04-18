@@ -17,6 +17,8 @@ import {
     deleteWork,
 } from './../controller/work.controller';
 
+import UserModel from '../model/user.model';
+
 router.route('/').get(getAll).post(createUser);
 
 //form to create user
@@ -25,8 +27,11 @@ router.route('/create-user').get((req, res) => {
 });
 
 //form to edit user
-router.route('/edit-user').get((req, res) => {
-    res.render('Admin/updateUser');
+router.route('/edit-user/:id').get(async (req: express.Request, res) => {
+    const { id } = req.params;
+    const userModel = new UserModel();
+    const user = await userModel.getOne(id as unknown as number);
+    res.render('Admin/updateUser', { user });
 });
 
 //form to create work

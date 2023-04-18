@@ -40,7 +40,7 @@ class UserModel {
         try {
             //opn connection
             const conn = await db.connect();
-            const sql = `INSERT INTO users (first_name, last_name, username, password, age, phone_number, experience, userType_id) values ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING first_name, last_name, username, password, age, phone_number, experience, userType_id`;
+            const sql = `INSERT INTO users (first_name, last_name, username, password, age, phone_number, experience, userType_id) values ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id, first_name, last_name, username, password, age, phone_number, experience, userType_id`;
 
             //run query
             const result = await conn.query(sql, [
@@ -59,6 +59,7 @@ class UserModel {
             conn.release();
 
             //return created user
+            this.id = user.id;
             this.username = user.username;
             this.age = user.age;
             this.first_name = user.first_name;

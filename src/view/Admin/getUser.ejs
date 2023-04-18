@@ -1,13 +1,90 @@
 <!DOCTYPE html>
-<html lang="en">
+<!-- Coding by CodingLab | www.codinglabweb.com-->
+<html lang="en" dir="ltr">
     <head>
         <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Home</title>
-        <link rel="stylesheet" href="/style.css" />
+        <!--<title> Registration or Sign Up form in HTML CSS | CodingLab </title>-->
+        <link rel="stylesheet" href="/style3.css" />
     </head>
+
     <body>
-        form to display user info <%= user.type %>
+        <div class="wrapperr">
+            <h2>update user</h2>
+            <form action="/admin">
+                <div class="input-box">
+                    <input type="text" placeholder="<%= user.id %>" name="id" />
+                </div>
+                <div class="input-box">
+                    <input
+                        type="text"
+                        placeholder="<%= user.first_name %>"
+                        name="first_name"
+                        readonly
+                    />
+                </div>
+
+                <div class="input-box">
+                    <input
+                        type="text"
+                        placeholder="<%= user.last_name %>"
+                        name="last_name"
+                        readonly
+                    />
+                </div>
+                <div class="input-box">
+                    <input
+                        type="text"
+                        placeholder="<%= user.username %>"
+                        name="username"
+                        readonly
+                    />
+                </div>
+                <div class="input-box">
+                    <input
+                        type="string"
+                        placeholder="****"
+                        name="password"
+                        readonly
+                    />
+                </div>
+                <div class="input-box">
+                    <input
+                        type="number"
+                        placeholder="<%= user.phone_number%>"
+                        name="phone_number"
+                        readonly
+                    />
+                </div>
+                <div class="input-box">
+                    <input
+                        type="number"
+                        placeholder="<%= user.age %>"
+                        name="age"
+                        readonly
+                    />
+                </div>
+                <div class="input-box">
+                    <input
+                        type="number"
+                        placeholder="<%= user.type %>"
+                        name="userType_id"
+                        readonly
+                    />
+                </div>
+                <div class="input-box">
+                    <input
+                        type="number"
+                        placeholder="<%= user.experience %>"
+                        name="experience"
+                        readonly
+                    />
+                </div>
+
+                <div class="input-box button">
+                    <input type="Submit" value="back to dashboard" />
+                </div>
+            </form>
+        </div>
     </body>
 </html>

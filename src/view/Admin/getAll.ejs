@@ -198,7 +198,7 @@
                                 <td><%= users[i].first_name %></td>
                                 <td><%= users[i].last_name %></td>
                                 <td><%= users[i].username %></td>
-                                <td>******</td>
+                                <td>**</td>
                                 <td><%= users[i].age %></td>
                                 <td><%= users[i].phone_number %></td>
                                 <td><%= users[i].experience%></td>
@@ -219,7 +219,7 @@
                                         </div>
                                         <div class="col">
                                             <a
-                                                href="/admin/edit-user"
+                                                href="/admin/edit-user/<%= users[i].id %>"
                                                 class="edit"
                                                 title="Edit"
                                                 data-toggle="tooltip"
