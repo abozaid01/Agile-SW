@@ -8,3 +8,5 @@ class AssignModel {
         this.assign_date = assign_date;
     }
 }
+
+export default AssignModel;
