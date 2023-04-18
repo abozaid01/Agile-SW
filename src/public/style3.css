@@ -21,6 +21,15 @@ body{
   border-radius: 6px;
   box-shadow: 0 5px 10px rgba(0,0,0,0.2);
 }
+.wrapperr{
+  position: relative;
+  max-width: 430px;
+  width: 100%;
+  background: #2dfbfba2;
+  padding: 34px;
+  border-radius: 6px;
+  box-shadow: 0 5px 10px rgba(142, 17, 17, 0.468);
+}
 .wrapper h2{
   position: relative;
   font-size: 22px;
@@ -37,6 +46,7 @@ body{
   border-radius: 12px;
   background: #4070f4;
 }
+
 .wrapper form{
   margin-top: 30px;
 }
