@@ -3,11 +3,14 @@ import express, { Application, Request, Response } from 'express';
 import errorMiddleware from './middleware/err.middleware';
 import config from './config';
 import db from './database';
+import { auth } from './controller/user.controller';
 
 const app: Application = express();
 
 //middlewares
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '/view'));
@@ -30,10 +33,25 @@ db.connect()
         console.log(err);
     });
 
-app.get('/', (req: Request, res: Response) => {
+//==================== Routes =====================
+
+app.get('/login', (req: Request, res: Response) => {
     //throw new Error('');
-    res.render('home');
+    res.render('login');
 });
+
+app.get('/panal', (req: Request, res: Response) => {
+    //throw new Error('');
+    res.render('dashboard');
+});
+
+app.post('/panal', (req: Request, res: Response) => {
+    //throw new Error('');
+    res.render('dashboard');
+});
+app.post('/auth', auth);
+
+//================================================
 
 //Internal errors in the server
 app.use(errorMiddleware);
