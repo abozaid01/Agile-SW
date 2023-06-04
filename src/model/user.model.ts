@@ -171,6 +171,7 @@ class UserModel {
         try {
             //opn connection
             const conn = await db.connect();
+            // const sq1 = `UPDATE users SET isDeleted = 1 WHERE id=$2`;
             const sql = `DELETE FROM users WHERE id= ($1) RETURNING id, first_name, last_name, username, password, age, phone_number, experience, userType_id`;
 
             //run query

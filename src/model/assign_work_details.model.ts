@@ -22,7 +22,6 @@ class AssignWorkDetailsModel {
             //close connection
             conn.release();
 
-            //return all users
             return result.rows;
         } catch (error) {
             throw new Error(
