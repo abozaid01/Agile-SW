@@ -1,5 +1,6 @@
 # Agile-SW
 
+<<<<<<< HEAD
 This project is built in (PostgreSQL, Express, and Typescript)
 
 ## Getting Started
@@ -38,3 +39,7 @@ POStGRES_PASSWORD=[your-password]
 -   User authentication and authorization using JWT tokens
 -   Login detection by username
 -   Dynamic dashboard for each user in the system
+=======
+
+.
+>>>>>>> f360c42d47f7c60f8c819a48efe728cf97f23355
