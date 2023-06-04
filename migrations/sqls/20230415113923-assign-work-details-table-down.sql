@@ -1,1 +1,0 @@
-DROP TABLE assign_work_details;

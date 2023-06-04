@@ -25,14 +25,14 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
         const userType_name = await userTypeModel.detectName(username);
 
         //figure out which links can this user access
-        const AccessLinks = await userTypeLinksModel.Access(
-            userType_id as number
-        ); // res=> [{link_id:3},{link_id:4},{link_id:1}]
+        // const AccessLinks = await userTypeLinksModel.Access(
+        //     userType_id as number
+        // ); // res=> [{link_id:3},{link_id:4},{link_id:1}]
 
-        const AccessLinksArr: number[] = AccessLinks.map((e) => e.link_id); // res=> [3,4,1]
+        // const AccessLinksArr: number[] = AccessLinks.map((e) => e.link_id); // res=> [3,4,1]
 
-        const showPages = await linksModel.show(4); //res=> [{physcialname: 'home.ejs'}, {physcialname: 'dashboard.ejs'}]
-        const showPagesArr = showPages.map((item) => item.physicalname); //res=> ['home.ejs', 'dashboard.ejs']
+        // const showPages = await linksModel.show(4); //res=> [{physcialname: 'home.ejs'}, {physcialname: 'dashboard.ejs'}]
+        // const showPagesArr = showPages.map((item) => item.physicalname); //res=> ['home.ejs', 'dashboard.ejs']
 
         return res.redirect(`/${userType_name}`);
         // return res.render('dashboard.ejs', {
@@ -66,9 +66,9 @@ export const getAll = async (
 ) => {
     try {
         const users = await userModel.getAll();
-        const works = await workModel.getAll();
+        // const works = await workModel.getAll();
 
-        res.render('Admin/getAll', { users, works });
+        res.render('Admin/getAll', { users });
     } catch (err) {
         next(err);
     }

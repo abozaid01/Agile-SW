@@ -151,7 +151,7 @@
         </script>
     </head>
     <body>
-        <div class="container-xl">
+        <div class="container-xxxl">
             <div class="table-responsive">
                 <div class="table-wrapper">
                     <div class="table-title">
@@ -185,7 +185,6 @@
                                 <th>password</th>
                                 <th>age <i class="fa fa-sort"></i></th>
                                 <th>phone_number</th>
-                                <th>experience</th>
                                 <th>user type</th>
                                 <th>options</th>
                             </tr>
@@ -198,10 +197,11 @@
                                 <td><%= users[i].first_name %></td>
                                 <td><%= users[i].last_name %></td>
                                 <td><%= users[i].username %></td>
-                                <td>**</td>
+                                <td style="width: 10px">
+                                    <%= users[i].password %>
+                                </td>
                                 <td><%= users[i].age %></td>
                                 <td><%= users[i].phone_number %></td>
-                                <td><%= users[i].experience%></td>
                                 <td><%= users[i].type%></td>
                                 <td>
                                     <div class="row">
@@ -301,131 +301,5 @@
         <!---------------------------------- Works-------------------------------->
         <!---------------------------------- Works-------------------------------->
         <!---------------------------------- Works-------------------------------->
-        <div class="container-xl">
-            <div class="table-responsive">
-                <div class="table-wrapper">
-                    <div class="table-title">
-                        <div class="row">
-                            <div class="col-sm-8">
-                                <h2>Work <b>Details</b></h2>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="search-box">
-                                    <i class="material-icons">&#xE8B6;</i>
-                                    <input
-                                        type="text"
-                                        class="form-control"
-                                        placeholder="Search&hellip;"
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <table
-                        class="table table-striped table-hover table-bordered"
-                    >
-                        <thead>
-                            <tr>
-                                <th>#</th>
-
-                                <th>id <i class="fa fa-sort"></i></th>
-                                <th>location <i class="fa fa-sort"></i></th>
-                                <th>estimated time</th>
-                                <th>work info <i class="fa fa-sort"></i></th>
-                                <th>options</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <% for( let i = 0; i < works.length; i++ ) { %>
-                            <tr>
-                                <td><%= i+1 %></td>
-                                <td><%= works[i].id %></td>
-                                <td><%= works[i].location %></td>
-                                <td><%= works[i].estimated_time %></td>
-                                <td><%= works[i].work_info %></td>
-                                <td>
-                                    <div class="row">
-                                        <div class="col">
-                                            <a
-                                                href="/admin/edit-work"
-                                                class="edit"
-                                                title="Edit"
-                                                data-toggle="tooltip"
-                                            >
-                                                <i class="material-icons"
-                                                    >&#xE254;</i
-                                                >
-                                            </a>
-                                        </div>
-                                        <div class="col">
-                                            <form
-                                                action="/admin/work/<%= works[i].id %>?_method=DELETE"
-                                                method="POST"
-                                            >
-                                                <button
-                                                    class="btn btn-link p-0"
-                                                    style="max-width: 100%"
-                                                >
-                                                    <a
-                                                        class="delete"
-                                                        title="Delete"
-                                                        data-toggle="tooltip"
-                                                    >
-                                                        <i
-                                                            class="material-icons"
-                                                            >&#xE872;</i
-                                                        >
-                                                    </a>
-                                                </button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <% } %>
-                        </tbody>
-                    </table>
-                    <div class="clearfix">
-                        <div class="hint-text">
-                            Showing <b>5</b> out of
-                            <b><%= users.length %></b> entries
-                        </div>
-                        <ul class="pagination">
-                            <li class="page-item disabled">
-                                <a href="#"
-                                    ><i class="fa fa-angle-double-left"></i
-                                ></a>
-                            </li>
-                            <li class="page-item">
-                                <a href="#" class="page-link">1</a>
-                            </li>
-                            <li class="page-item">
-                                <a href="#" class="page-link">2</a>
-                            </li>
-                            <li class="page-item active">
-                                <a href="#" class="page-link">3</a>
-                            </li>
-                            <li class="page-item">
-                                <a href="#" class="page-link">4</a>
-                            </li>
-                            <li class="page-item">
-                                <a href="#" class="page-link">5</a>
-                            </li>
-                            <li class="page-item">
-                                <a href="#" class="page-link"
-                                    ><i class="fa fa-angle-double-right"></i
-                                ></a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="d-flex justify-content-center">
-            <a href="/admin/create-work" class="btn btn-success"
-                >Create New Work</a
-            >
-        </div>
-        <br /><br /><br />
     </body>
 </html>

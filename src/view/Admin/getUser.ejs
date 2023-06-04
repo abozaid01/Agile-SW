@@ -10,7 +10,7 @@
 
     <body>
         <div class="wrapperr">
-            <h2>update user</h2>
+            <h2>Read One User</h2>
             <form action="/admin">
                 <div class="input-box">
                     <input type="text" placeholder="<%= user.id %>" name="id" />
@@ -67,16 +67,16 @@
                 <div class="input-box">
                     <input
                         type="number"
-                        placeholder="<%= user.type %>"
+                        placeholder="<%= user.userType_name %>"
                         name="userType_id"
                         readonly
                     />
                 </div>
                 <div class="input-box">
                     <input
-                        type="number"
-                        placeholder="<%= user.experience %>"
-                        name="experience"
+                        type="text"
+                        placeholder="<%= user.address%>"
+                        name="address"
                         readonly
                     />
                 </div>
