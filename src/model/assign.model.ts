@@ -81,7 +81,7 @@ class AssignModel {
         }
     }
 
-    async deleteUser(id: number): Promise<AssignModel> {
+    async deleteAssign(id: number): Promise<AssignModel> {
         try {
             //opn connection
             const conn = await db.connect();

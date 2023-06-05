@@ -59,7 +59,7 @@ export const updateWork = async (
         //TODO: validate data first
 
         //update work
-        await workModel.updateWork(req.body);
+        // await workModel.updateWork(req.body);
         res.redirect('/admin');
     } catch (err) {
         next(err);
