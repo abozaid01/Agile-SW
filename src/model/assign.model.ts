@@ -12,7 +12,7 @@ class AssignModel {
         return this.id;
     }
 
-    async create(assign: AssignModel): Promise<AssignModel> {
+    async create(user_id: number): Promise<AssignModel> {
         try {
             //opn connection
             const conn = await db.connect();
@@ -20,19 +20,19 @@ class AssignModel {
 
             //run query
             const result = await conn.query(sql, [
-                assign.user_id
+                user_id
             ]);
+
+            
+            this.id = result.rows[0].id;
 
             //close connection
             conn.release();
 
-            //return created user
-            this.id = assign.id;
-
             return result.rows[0];
         } catch (error) {
             throw new Error(
-                `unable to Assign work to user with id: ${assign.id}
+                `unable to create assign row with userID: ${user_id}
                 }): ${(error as Error).message}`
             );
         }
