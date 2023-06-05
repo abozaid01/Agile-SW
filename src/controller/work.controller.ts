@@ -1,7 +1,19 @@
 import { Request, Response, NextFunction } from 'express';
+
 import WorkModel from '../model/work.model';
+import WorkAttributesModel from '../model/workAttributes.model';
+import WorkAttributesValuesModel from '../model/workAttributesValues.model';
+import AssignWorkDetailsModel from '../model/assign_work_details.model';
+import AssignModel from '../model/assign.model';
+import AttributesModel from '../model/attributes.model';
 
 const workModel = new WorkModel();
+const workAttributesModel = new WorkAttributesModel();
+const workAttributesValuesModel = new WorkAttributesValuesModel();
+const assignWorkDetailsModel = new AssignWorkDetailsModel();
+const assignModel = new AssignModel();
+const attributesModel = new AttributesModel();
+
 
 export const createWork = async (
     req: Request,
@@ -9,15 +21,20 @@ export const createWork = async (
     next: NextFunction
 ) => {
     try {
-        //TODO:validate data
+        
+        const {name, nameOfAttr, typeofAttr, value} = req.body
 
         //create the work
-        const work = await workModel.create(req.body);
-        res.json({
-            status: 'success',
-            data: { ...work },
-            message: 'work created successfully',
-        });
+        const work = await workModel.create(name);
+        const attribute = await attributesModel.create(nameOfAttr, typeofAttr);
+        const workAttributes = await workAttributesModel.create(work.GetWorkID() as unknown as number, attribute.getAttributesID() as unknown as number);
+        // res.json({
+        //     status: 'success',
+        //     data: { ...work },
+        //     message: 'work created successfully',
+        // });
+        res.redirect('/admin');
+
     } catch (error) {
         next(error);
     }
@@ -30,7 +47,8 @@ export const getAll = async (
 ) => {
     try {
         const works = await workModel.getAll();
-        res.render('Voulnteer/getAll', { works });
+        const workAttrValus = await workAttributesValuesModel.getAll();
+        res.render('Voulnteer/getAll', { works, workAttrValus });
     } catch (err) {
         next(err);
     }

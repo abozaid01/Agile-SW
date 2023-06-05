@@ -12,6 +12,30 @@ class AssignModel {
         return this.id;
     }
 
+
+    async GetAssignIDFromUser(user_id: number): Promise<number> {
+        try {
+            //opn connection
+            const conn = await db.connect();
+            const sql = `SELECT id FROM assign WHERE user_id=$1 RETURNING id, user_id;`;
+
+            //run query
+            const result = await conn.query(sql, [
+                user_id
+            ]);
+
+            
+            //close connection
+            conn.release();
+
+            return result.rows[0].id;
+        } catch (error) {
+            throw new Error(
+                `unable to create assign row with userID: ${user_id}
+                }): ${(error as Error).message}`
+            );
+        }
+    }
     async create(user_id: number): Promise<AssignModel> {
         try {
             //opn connection

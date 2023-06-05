@@ -20,33 +20,60 @@ class WorkModel {
         this.isDeleted = isDeleted;
     }
 
+    GetWorkID() {
+        return this.id;
+    }
+
     //CREATE
-    async create(work: WorkModel): Promise<WorkModel> {
+    async create(name: string): Promise<WorkModel> {
         try {
             //opn connection
             const conn = await db.connect();
-            const sql = `INSERT INTO work (name, created_at, updated_at, isDeleted) values ($1, $2, $3, false) RETURNING name, created_at, updated_at, isDeleted, id;`;
+            const sql = `INSERT INTO work (name, created_at, isDeleted) values ($1, $2, $3, false) RETURNING name, created_at, updated_at, isDeleted, id;`;
 
             //run query
             const result = await conn.query(sql, [
-                work.name,
-                work.created_at,
-                work.update_at
+                name
             ]);
 
             //close connection
             conn.release();
 
             //return created work
-            this.id = work.id;
-            this.name = work.name;
-            this.created_at = work.created_at;
-            this.update_at = work.update_at;
-            this.isDeleted = work.isDeleted;
+            this.id = result.rows[0].id;
+            this.name = result.rows[0].name;
+            this.created_at = result.rows[0].created_at;
+            this.update_at = result.rows[0].update_at;
+            this.isDeleted = result.rows[0].isDeleted;
+
             return result.rows[0];
         } catch (error) {
             throw new Error(
-                `unable to create work: ${work.name}
+                `unable to create work: ${name}
+                }): ${(error as Error).message}`
+            );
+        }
+    }
+
+    async GetWorkIDFromUser(user_id: number): Promise<number> {
+        try {
+            //opn connection
+            const conn = await db.connect();
+            const sql = `SELECT id FROM work WHERE user_id=$1 RETURNING id, user_id;`;
+
+            //run query
+            const result = await conn.query(sql, [
+                user_id
+            ]);
+
+            
+            //close connection
+            conn.release();
+
+            return result.rows[0].id;
+        } catch (error) {
+            throw new Error(
+                `unable to create assign row with userID: ${user_id}
                 }): ${(error as Error).message}`
             );
         }
