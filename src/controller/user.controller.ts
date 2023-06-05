@@ -18,22 +18,25 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
 
         const user = await userModel.auth(username, password);
 
-        if (!user) return res.status(401).redirect('/login'); //TODO: Alret unsucessful login
+        if (!user) {
+            req.flash('fail', 'username or password is not correct');
+            return res.status(401).redirect('/login');
+        }
 
         //detect userTypeID && userTypeName based on the username
         const userType_id = await userModel.detect(username);
         const userType_name = await userTypeModel.detectName(username);
 
         //figure out which links can this user access
-        const AccessLinks = await userTypeLinksModel.Access(
-            userType_id as number
-        ); // res=> [{link_id:3},{link_id:4},{link_id:1}]
+        // const AccessLinks = await userTypeLinksModel.Access(
+        //     userType_id as number
+        // ); // res=> [{link_id:3},{link_id:4},{link_id:1}]
 
-        const AccessLinksArr: number[] = AccessLinks.map((e) => e.link_id); // res=> [3,4,1]
+        // const AccessLinksArr: number[] = AccessLinks.map((e) => e.link_id); // res=> [3,4,1]
 
-        const showPages = await linksModel.show(4); //res=> [{physcialname: 'home.ejs'}, {physcialname: 'dashboard.ejs'}]
-        const showPagesArr = showPages.map((item) => item.physicalname); //res=> ['home.ejs', 'dashboard.ejs']
-
+        // const showPages = await linksModel.show(4); //res=> [{physcialname: 'home.ejs'}, {physcialname: 'dashboard.ejs'}]
+        // const showPagesArr = showPages.map((item) => item.physicalname); //res=> ['home.ejs', 'dashboard.ejs']
+        req.flash('success', 'user login successfully.');
         return res.redirect(`/${userType_name}`);
         // return res.render('dashboard.ejs', {
         //     userType_name,
@@ -53,6 +56,7 @@ export const createUser = async (
 
         //create the user
         await userModel.create(req.body);
+        req.flash('success', 'user created successfully.');
         res.redirect('/admin');
     } catch (error) {
         next(error);
@@ -65,10 +69,19 @@ export const getAll = async (
     next: NextFunction
 ) => {
     try {
-        const users = await userModel.getAll();
-        const works = await workModel.getAll();
+        const successMessage = req.flash('success');
+        const successDelMessage = req.flash('success');
+        const successCreateMessage = req.flash('success');
 
-        res.render('Admin/getAll', { users, works });
+        const users = await userModel.getAll();
+        // const works = await workModel.getAll();
+
+        res.render('Admin/getAll', {
+            users,
+            successMessage,
+            successDelMessage,
+            successCreateMessage,
+        });
     } catch (err) {
         next(err);
     }
@@ -111,6 +124,7 @@ export const deleteUser = async (
 ) => {
     try {
         await userModel.deleteUser(req.params.id as unknown as number);
+        req.flash('success', 'user deleted successfully.');
         res.redirect('/admin');
     } catch (err) {
         next(err);

@@ -52,7 +52,7 @@ class WorkModel {
         try {
             //opn connection
             const conn = await db.connect();
-            const sql = `SELECT id ,location, estimated_time, work_info from work`;
+            const sql = `SELECT id ,name from work`;
 
             //run query
             const result = await conn.query(sql);

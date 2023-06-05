@@ -1,4 +1,5 @@
 import db from '../database';
+import bcrypt from 'bcrypt';
 
 class UserModel {
     private id?: number;
@@ -8,8 +9,9 @@ class UserModel {
     private password: string;
     private age: number;
     private phone_number: number;
-    private experience: number;
+    private address: string;
     private userType_id: number;
+    private userType_name?: string;
 
     constructor(
         username = 'null',
@@ -18,7 +20,7 @@ class UserModel {
         password = 'null',
         age = 0,
         phone_number = 0,
-        experience = 0,
+        address = 'null',
         userType_id = 0
     ) {
         this.username = username;
@@ -27,12 +29,16 @@ class UserModel {
         this.last_name = last_name;
         this.password = password;
         this.phone_number = phone_number;
-        this.experience = experience;
         this.userType_id = userType_id;
+        this.address = address;
     }
 
     getUserTypeId(): number {
         return this.userType_id;
+    }
+
+    setAddress(address: string) {
+        this.address = address;
     }
 
     //Create new user
@@ -40,19 +46,17 @@ class UserModel {
         try {
             //opn connection
             const conn = await db.connect();
-            const sql = `INSERT INTO users (first_name, last_name, username, password, age, phone_number, experience, userType_id) values ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id, first_name, last_name, username, password, age, phone_number, experience, userType_id`;
+            const sql = `INSERT INTO users (first_name, last_name, username, password, age, phone_number, "userType_id") values ($1, $2, $3, $4, $5, $6, $7) RETURNING id, first_name, last_name, username, password, age, phone_number, "userType_id"`;
 
             //run query
             const result = await conn.query(sql, [
                 user.first_name,
                 user.last_name,
                 user.username,
-                user.password,
+                await bcrypt.hash(user.password, 10),
                 user.age,
                 user.phone_number,
-                user.experience,
                 user.userType_id,
-                //await hash(user.password),
             ]);
 
             //close connection
@@ -66,7 +70,6 @@ class UserModel {
             this.last_name = user.last_name;
             this.password = user.password;
             this.phone_number = user.phone_number;
-            this.experience = user.experience;
             this.userType_id = user.userType_id;
             return result.rows[0];
         } catch (error) {
@@ -78,12 +81,30 @@ class UserModel {
         }
     }
 
+    async getAddress(id: number): Promise<string | undefined> {
+        if (id === 0) {
+            return '';
+        } else {
+            const conn = await db.connect();
+            const sql = `SELECT * from "Address" where id = ${id}`;
+            const result = await conn.query(sql);
+
+            if (result.rows)
+                return (result.rows[0].name +
+                    ', ' +
+                    (await this.getAddress(result.rows[0].parentId))) as string;
+        }
+    }
     //Read
     async getAll(): Promise<UserModel[]> {
         try {
             //opn connection
             const conn = await db.connect();
-            const sql = `SELECT users.id ,first_name, last_name, username,password, age, phone_number, experience, name AS type FROM users JOIN usertype ON users.usertype_id = usertype.id;`;
+            const sql = `SELECT users.id ,first_name, last_name, username,password, age, phone_number, name AS type 
+            FROM users 
+            JOIN "userType" 
+            ON users."userType_id" = "userType".id
+            WHERE "isDeleted"=false;`;
 
             //run query
             const result = await conn.query(sql);
@@ -105,7 +126,9 @@ class UserModel {
         try {
             //opn connection
             const conn = await db.connect();
-            const sql = `SELECT u.id ,first_name, last_name, username, age, phone_number, experience , userType.name AS type from users as u, userType WHERE u.userType_id = userType.id AND u.id=($1)`;
+            const sql = `SELECT u.id ,first_name, last_name, username, age, phone_number , "userType".name AS type , "address_id"
+            FROM users as u, "userType" 
+            WHERE u."userType_id" = "userType".id AND u.id=($1)`;
 
             //run query
             const result = await conn.query(sql, [id]);
@@ -114,7 +137,17 @@ class UserModel {
             conn.release();
 
             //return specific user
-            return result.rows[0];
+            this.id = result.rows[0].id;
+            this.first_name = result.rows[0].first_name;
+            this.last_name = result.rows[0].last_name;
+            this.username = result.rows[0].username;
+            this.age = result.rows[0].age;
+            this.phone_number = result.rows[0].phone_number;
+            this.userType_name = result.rows[0].type;
+
+            const address = await this.getAddress(result.rows[0].address_id);
+            this.setAddress(address as string);
+            return this;
         } catch (error) {
             throw new Error(
                 `unable to get the requested user ${id}  ${
@@ -128,8 +161,10 @@ class UserModel {
     async updateUser(user: UserModel): Promise<UserModel> {
         try {
             const conn = await db.connect();
-            const sql = `UPDATE users SET first_name=$1, last_name=$2, username=$3, password=$4, age=$5, phone_number=$6, experience=$7, userType_id=$8 WHERE id=$9 RETURNING id, first_name, last_name, username, password, age, phone_number, experience, userType_id`;
-
+            const sql = `UPDATE users 
+            SET first_name=$1, last_name=$2, username=$3, password=$4, age=$5, phone_number=$6, userType_id=$8 
+            WHERE id=$9 
+            RETURNING id, first_name, last_name, username, password, age, phone_number, experience, userType_id`;
             //run query
             const result = await conn.query(sql, [
                 user.first_name,
@@ -138,7 +173,6 @@ class UserModel {
                 user.password,
                 user.age,
                 user.phone_number,
-                user.experience,
                 user.userType_id,
                 user.id,
                 //await hash(user.password),
@@ -154,7 +188,6 @@ class UserModel {
             this.last_name = user.last_name;
             this.password = user.password;
             this.phone_number = user.phone_number;
-            this.experience = user.experience;
             this.userType_id = user.userType_id;
             return result.rows[0];
         } catch (error) {
@@ -171,7 +204,8 @@ class UserModel {
         try {
             //opn connection
             const conn = await db.connect();
-            const sql = `DELETE FROM users WHERE id= ($1) RETURNING id, first_name, last_name, username, password, age, phone_number, experience, userType_id`;
+
+            const sql = `UPDATE users SET "isDeleted"=true WHERE id=$1`;
 
             //run query
             const result = await conn.query(sql, [id]);
@@ -205,9 +239,9 @@ class UserModel {
                 const { password: passwordDB } = result.rows[0];
 
                 //check if the password is correct in the database
-                if (password === passwordDB) {
+                if (await bcrypt.compare(password, passwordDB)) {
                     const userInfo = await conn.query(
-                        'SELECT id, first_name, last_name, username, password, age, phone_number, experience FROM users WHERE username=($1)',
+                        'SELECT id, first_name, last_name, username, password, age, phone_number FROM users WHERE username=($1)',
                         [username]
                     );
                     return userInfo.rows[0];
@@ -229,7 +263,7 @@ class UserModel {
         try {
             //open connection
             const conn = await db.connect();
-            const sql = 'SELECT userType_id FROM users WHERE username=$1';
+            const sql = 'SELECT "userType_id" FROM users WHERE username=$1';
 
             //run query
             const result = await conn.query(sql, [username]);

@@ -12,7 +12,7 @@ class UserTypeModel {
             //open connection
             const conn = await db.connect();
             const sql =
-                'SELECT name FROM users, userType WHERE  users.userType_id = userType.id AND username=$1';
+                'SELECT name FROM users, "userType" WHERE  users."userType_id" = "userType".id AND username=$1';
 
             //run query
             const result = await conn.query(sql, [username]);

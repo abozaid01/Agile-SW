@@ -7,6 +7,8 @@ import { auth } from './controller/user.controller';
 import methodOverride from 'method-override';
 import adminRouter from './routes/admin.routes';
 import voulnteerRouter from './routes/voulnteer.routes';
+import flash from 'connect-flash';
+import session from 'express-session';
 
 const app: Application = express();
 
@@ -16,6 +18,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
+app.use(
+    session({
+        secret: 'my-secret',
+        resave: false,
+        saveUninitialized: true,
+    })
+);
+app.use(flash());
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '/view'));
@@ -40,7 +50,9 @@ db.connect()
 
 //================== Login ========================
 app.get('/login', (req: Request, res: Response) => {
-    res.render('login');
+    const failMessage = req.flash('fail');
+
+    res.render('login', { failMessage });
 });
 
 app.post('/login', auth);
