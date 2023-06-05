@@ -122,6 +122,28 @@ class WorkModel {
         }
     }
     
+    async GetWorkName(id: number): Promise<WorkModel> {
+        try {
+            //opn connection
+            const conn = await db.connect();
+            const sql = `SELECT name FROM work WHERE id=($1)`;
+
+            //run query
+            const result = await conn.query(sql, [id]);
+
+            //close connection
+            conn.release();
+
+            //return specific work
+            return result.rows[0];
+        } catch (error) {
+            throw new Error(
+                `unable to get the requested work name of workID: ${id}  ${
+                    (error as Error).message
+                }`
+            );
+        }
+    }
 }
 
 export default WorkModel;
