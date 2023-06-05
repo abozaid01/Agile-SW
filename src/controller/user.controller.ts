@@ -18,7 +18,10 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
 
         const user = await userModel.auth(username, password);
 
-        if (!user) return res.status(401).redirect('/login'); //TODO: Alret unsucessful login
+        if (!user) {
+            req.flash('fail', 'username or password is not correct');
+            return res.status(401).redirect('/login');
+        }
 
         //detect userTypeID && userTypeName based on the username
         const userType_id = await userModel.detect(username);
@@ -33,7 +36,7 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
 
         // const showPages = await linksModel.show(4); //res=> [{physcialname: 'home.ejs'}, {physcialname: 'dashboard.ejs'}]
         // const showPagesArr = showPages.map((item) => item.physicalname); //res=> ['home.ejs', 'dashboard.ejs']
-
+        req.flash('success', 'user login successfully.');
         return res.redirect(`/${userType_name}`);
         // return res.render('dashboard.ejs', {
         //     userType_name,
@@ -65,10 +68,12 @@ export const getAll = async (
     next: NextFunction
 ) => {
     try {
+        const successMessage = req.flash('success');
+
         const users = await userModel.getAll();
         // const works = await workModel.getAll();
 
-        res.render('Admin/getAll', { users });
+        res.render('Admin/getAll', { users, successMessage });
     } catch (err) {
         next(err);
     }

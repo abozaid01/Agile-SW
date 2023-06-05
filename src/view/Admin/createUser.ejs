@@ -58,13 +58,22 @@
                 <div class="input-box">
                     <input type="text" placeholder="age" required name="age" />
                 </div>
+                <!-- Address -->
                 <div class="input-box">
                     <input
                         type="text"
-                        placeholder="user type id"
+                        placeholder="Address"
                         required
-                        name="userType_id"
+                        name="address_id"
                     />
+                </div>
+                <div class="input-box">
+                    <label for="gender"> Select user type</label>
+                    <select name="userType_id">
+                        <option value="1" selected>Admin</option>
+                        <option value="2">Volunteer</option>
+                        <option value="3">trainer</option>
+                    </select>
                 </div>
 
                 <div class="input-box button">

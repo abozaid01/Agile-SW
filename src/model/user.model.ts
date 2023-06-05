@@ -140,7 +140,8 @@ class UserModel {
             this.age = result.rows[0].age;
             this.phone_number = result.rows[0].phone_number;
             this.userType_name = result.rows[0].type;
-            const address = await this.getAddress(result.rows[0].id);
+
+            const address = await this.getAddress(result.rows[0].address_id);
             this.setAddress(address as string);
             return this;
         } catch (error) {
