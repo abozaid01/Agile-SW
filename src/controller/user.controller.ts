@@ -56,6 +56,7 @@ export const createUser = async (
 
         //create the user
         await userModel.create(req.body);
+        req.flash('success', 'user created successfully.');
         res.redirect('/admin');
     } catch (error) {
         next(error);
@@ -69,11 +70,18 @@ export const getAll = async (
 ) => {
     try {
         const successMessage = req.flash('success');
+        const successDelMessage = req.flash('success');
+        const successCreateMessage = req.flash('success');
 
         const users = await userModel.getAll();
         // const works = await workModel.getAll();
 
-        res.render('Admin/getAll', { users, successMessage });
+        res.render('Admin/getAll', {
+            users,
+            successMessage,
+            successDelMessage,
+            successCreateMessage,
+        });
     } catch (err) {
         next(err);
     }
@@ -116,6 +124,7 @@ export const deleteUser = async (
 ) => {
     try {
         await userModel.deleteUser(req.params.id as unknown as number);
+        req.flash('success', 'user deleted successfully.');
         res.redirect('/admin');
     } catch (err) {
         next(err);

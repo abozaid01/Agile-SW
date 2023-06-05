@@ -100,7 +100,11 @@ class UserModel {
         try {
             //opn connection
             const conn = await db.connect();
-            const sql = `SELECT users.id ,first_name, last_name, username,password, age, phone_number, name AS type FROM users JOIN "userType" ON users."userType_id" = "userType".id;`;
+            const sql = `SELECT users.id ,first_name, last_name, username,password, age, phone_number, name AS type 
+            FROM users 
+            JOIN "userType" 
+            ON users."userType_id" = "userType".id
+            WHERE "isDeleted"=false;`;
 
             //run query
             const result = await conn.query(sql);
@@ -157,8 +161,10 @@ class UserModel {
     async updateUser(user: UserModel): Promise<UserModel> {
         try {
             const conn = await db.connect();
-            const sql = `UPDATE users SET first_name=$1, last_name=$2, username=$3, password=$4, age=$5, phone_number=$6, userType_id=$8 WHERE id=$9 RETURNING id, first_name, last_name, username, password, age, phone_number, experience, userType_id`;
-
+            const sql = `UPDATE users 
+            SET first_name=$1, last_name=$2, username=$3, password=$4, age=$5, phone_number=$6, userType_id=$8 
+            WHERE id=$9 
+            RETURNING id, first_name, last_name, username, password, age, phone_number, experience, userType_id`;
             //run query
             const result = await conn.query(sql, [
                 user.first_name,
@@ -198,8 +204,8 @@ class UserModel {
         try {
             //opn connection
             const conn = await db.connect();
-            // const sq1 = `UPDATE users SET isDeleted = 1 WHERE id=$2`;
-            const sql = `DELETE FROM users WHERE id= ($1) RETURNING id, first_name, last_name, username, password, age, phone_number, experience, userType_id`;
+
+            const sql = `UPDATE users SET "isDeleted"=true WHERE id=$1`;
 
             //run query
             const result = await conn.query(sql, [id]);
