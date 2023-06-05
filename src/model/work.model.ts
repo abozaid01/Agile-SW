@@ -2,18 +2,22 @@ import db from '../database';
 
 class WorkModel {
     private id?: number;
-    private location: string;
-    private estimated_time: string;
-    private work_info: string;
+    private name?: string;
+    private created_at?: string;
+    private update_at?: string;
+    private isDeleted?: boolean;
+
 
     constructor(
-        location = 'null',
-        estimated_time = 'null',
-        work_info = 'null'
+        name = 'null',
+        created_at = 'null',
+        update_at = 'null',
+        isDeleted = false
     ) {
-        this.location = location;
-        this.estimated_time = estimated_time;
-        this.work_info = work_info;
+        this.name = name;
+        this.created_at = created_at;
+        this.update_at = update_at;
+        this.isDeleted = isDeleted;
     }
 
     //CREATE
@@ -21,13 +25,13 @@ class WorkModel {
         try {
             //opn connection
             const conn = await db.connect();
-            const sql = `INSERT INTO work (location, estimated_time, work_info) values ($1, $2, $3) RETURNING location, estimated_time, work_info, id`;
+            const sql = `INSERT INTO work (name, created_at, updated_at, isDeleted) values ($1, $2, $3, false) RETURNING name, created_at, updated_at, isDeleted, id;`;
 
             //run query
             const result = await conn.query(sql, [
-                work.location,
-                work.estimated_time,
-                work.work_info,
+                work.name,
+                work.created_at,
+                work.update_at
             ]);
 
             //close connection
@@ -35,14 +39,39 @@ class WorkModel {
 
             //return created work
             this.id = work.id;
-            this.location = work.location;
-            this.estimated_time = work.estimated_time;
-            this.work_info = work.work_info;
+            this.name = work.name;
+            this.created_at = work.created_at;
+            this.update_at = work.update_at;
+            this.isDeleted = work.isDeleted;
             return result.rows[0];
         } catch (error) {
             throw new Error(
-                `unable to create work: ${work.work_info}
+                `unable to create work: ${work.name}
                 }): ${(error as Error).message}`
+            );
+        }
+    }
+
+        //DELETE
+    async deleteWork(id: number): Promise<WorkModel> {
+        try {
+            //opn connection
+            const conn = await db.connect();
+            const sql = `UPDATE work set isDeleted=false where id=$1`;
+
+            //run query
+            const result = await conn.query(sql, [id]);
+
+            //release connection
+            conn.release();
+
+            //return the deleted work
+            return result.rows[0];
+        } catch (error) {
+            throw new Error(
+                `unable to delete the requested work with id: ${id}  ${
+                    (error as Error).message
+                }`
             );
         }
     }
@@ -52,7 +81,7 @@ class WorkModel {
         try {
             //opn connection
             const conn = await db.connect();
-            const sql = `SELECT id ,location, estimated_time, work_info from work`;
+            const sql = `SELECT id ,name, isDeleted from work`;
 
             //run query
             const result = await conn.query(sql);
@@ -74,7 +103,7 @@ class WorkModel {
         try {
             //opn connection
             const conn = await db.connect();
-            const sql = `SELECT id ,location, estimated_time, work_info FROM work WHERE id=($1)`;
+            const sql = `SELECT id ,name, created_at, isDeleted FROM work WHERE id=($1)`;
 
             //run query
             const result = await conn.query(sql, [id]);
@@ -92,61 +121,7 @@ class WorkModel {
             );
         }
     }
-
-    //UPDATE
-    async updateWork(work: WorkModel): Promise<WorkModel> {
-        try {
-            const conn = await db.connect();
-            const sql = `UPDATE work SET location=$1, estimated_time=$2, work_info=$3 WHERE id=$4 RETURNING id, location, estimated_time, work_info`;
-
-            //run query
-            const result = await conn.query(sql, [
-                work.location,
-                work.estimated_time,
-                work.work_info,
-                work.id,
-            ]);
-
-            //release connection
-            conn.release();
-
-            //return the updated user
-            this.location = work.location;
-            this.estimated_time = work.estimated_time;
-            this.work_info = work.work_info;
-            return result.rows[0];
-        } catch (error) {
-            throw new Error(
-                `unable to update the requested work : ${
-                    (error as Error).message
-                }`
-            );
-        }
-    }
-
-    //DELETE
-    async deleteWork(id: number): Promise<WorkModel> {
-        try {
-            //opn connection
-            const conn = await db.connect();
-            const sql = `DELETE FROM work WHERE id= ($1) RETURNING id, location, estimated_time, work_info`;
-
-            //run query
-            const result = await conn.query(sql, [id]);
-
-            //release connection
-            conn.release();
-
-            //return the deleted work
-            return result.rows[0];
-        } catch (error) {
-            throw new Error(
-                `unable to delete the requested work ${id}  ${
-                    (error as Error).message
-                }`
-            );
-        }
-    }
+    
 }
 
 export default WorkModel;
