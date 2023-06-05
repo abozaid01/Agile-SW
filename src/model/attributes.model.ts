@@ -28,8 +28,8 @@ class AttributesModel {
 
             
             this.id = result.rows[0].id;
-            this.id = result.rows[0].nameOfAttr;
-            this.id = result.rows[0].typeofAttr;
+            this.nameOfAttr = result.rows[0].nameOfAttr;
+            this.typeofAttr = result.rows[0].typeofAttr;
 
             //close connection
             conn.release();
