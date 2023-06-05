@@ -10,6 +10,10 @@ class WorkAttributesModel {
         this.attributes_id = attributes_id;
     }
 
+    GetID() {
+        return this.id;
+    }
+
     async create(work_id: number, attributes_id: number): Promise<WorkAttributesModel> {
         try {
             //opn connection

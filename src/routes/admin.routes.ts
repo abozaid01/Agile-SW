@@ -13,7 +13,6 @@ import {
 import {
     createWork,
     getWork,
-    updateWork,
     deleteWork,
 } from './../controller/work.controller';
 
@@ -45,6 +44,6 @@ router.route('/edit-work').get((req, res) => {
 });
 
 router.route('/user/:id').get(getUser).patch(updateUser).delete(deleteUser);
-router.route('/work/:id').patch(updateWork).delete(deleteWork);
+router.route('/work/:id').delete(deleteWork);
 
 export default router;

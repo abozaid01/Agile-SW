@@ -28,6 +28,7 @@ export const createWork = async (
         const work = await workModel.create(name);
         const attribute = await attributesModel.create(nameOfAttr, typeofAttr);
         const workAttributes = await workAttributesModel.create(work.GetWorkID() as unknown as number, attribute.getAttributesID() as unknown as number);
+        const workAttValue = await workAttributesValuesModel.create(workAttributes.GetID() as unknown as number, 0, value);
         // res.json({
         //     status: 'success',
         //     data: { ...work },
@@ -63,22 +64,6 @@ export const getWork = async (
         //get specific work
         const work = await workModel.getOne(req.params.id as unknown as number);
         res.render('Voulnteer/getAll', { work });
-    } catch (err) {
-        next(err);
-    }
-};
-
-export const updateWork = async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-) => {
-    try {
-        //TODO: validate data first
-
-        //update work
-        // await workModel.updateWork(req.body);
-        res.redirect('/admin');
     } catch (err) {
         next(err);
     }

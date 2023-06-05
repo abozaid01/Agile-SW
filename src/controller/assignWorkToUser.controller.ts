@@ -15,11 +15,10 @@ export const assignWorkToUser =async (
   next: NextFunction
 ) => {
 
-  const { user_id } = req.body;
+  const { user_id, work_id } = req.body;
 
   const assignID = assignModel.GetAssignIDFromUser(user_id);
-  const workID = workModel.GetWorkIDFromUser(user_id);
 
-  assignWorkDetailsModel.create(await assignID, await workID);
+  assignWorkDetailsModel.create(await assignID, work_id);
 
 }
